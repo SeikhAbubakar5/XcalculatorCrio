@@ -62,16 +62,21 @@ function Calculator() {
     return values.pop();
   };
 
-  const handleClick = (value) => {
+  const handleButtonClick = (value) => {
     if (value === "C") {
       setCalc("");
       setResult("");
-      setIsVisible(false); 
+      setIsVisible(false);
     } else if (value === "=") {
+      if (!calc || /[+\-*/]$/.test(calc)) {
+        setResult("Incomplete Expression");
+        setIsVisible(true);
+        return;
+      }
       try {
         const evaluatedResult = calculate(calc);
         setResult(evaluatedResult);
-        setIsVisible(true); 
+        setIsVisible(true);
       } catch (error) {
         setResult("Error");
         setIsVisible(true); 
