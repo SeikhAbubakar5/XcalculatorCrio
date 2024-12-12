@@ -6,7 +6,7 @@ function Calculator() {
   const [result, setResult] = useState("");
   const [isVisible, setIsVisible] = useState(false);
 
-  const calculate = (expression) => {
+  const calculate = (exp) => {
     const operators = [];
     const values = [];
 
@@ -22,17 +22,21 @@ function Calculator() {
       const a = values.pop();
       const operator = operators.pop();
       switch (operator) {
-        case '+': values.push(a + b); break;
-        case '-': values.push(a - b); break;
-        case '*': values.push(a * b); break;
-        case '/': values.push(a / b); break;
+        case '+': values.push(a + b); 
+        break;
+        case '-': values.push(a - b); 
+        break;
+        case '*': values.push(a * b); 
+        break;
+        case '/': values.push(a / b); 
+        break;
         default: throw new Error("Invalid operator");
       }
     };
 
     let number = "";
-    for (let i = 0; i < expression.length; i++) {
-      const char = expression[i];
+    for (let i = 0; i < exp.length; i++) {
+      const char = exp[i];
 
       if (!isNaN(char) || char === '.') {
         number += char;
@@ -62,24 +66,24 @@ function Calculator() {
     return values.pop();
   };
 
-  const handleButtonClick = (value) => {
+  const handleClick = (value) => {
     if (value === "C") {
       setCalc("");
       setResult("");
-      setIsVisible(false);
+      setIsVisible(false); 
     } else if (value === "=") {
-      if (!calc || /[+\-*/]$/.test(calc)) {
-        setResult("Incomplete Expression");
-        setIsVisible(true);
-        return;
-      }
-      try {
-        const evaluatedResult = calculate(calc);
-        setResult(evaluatedResult);
-        setIsVisible(true);
-      } catch (error) {
+      if (calc.trim() === "") {
         setResult("Error");
         setIsVisible(true); 
+      } else {
+        try {
+          const result = calculate(calc);
+          setResult(result);
+          setIsVisible(true); 
+        } catch (error) {
+          setResult("Error");
+          setIsVisible(true); 
+        }
       }
     } else {
       setCalc((prevCalc) => prevCalc + value);
